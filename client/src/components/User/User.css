@@ -1,0 +1,84 @@
+table {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    border-spacing: 0;
+    text-align: center;
+    margin: 0 80px;
+    font-size: 24px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin-bottom: 420px;
+}
+
+.audio-img {
+    width: 300px;
+}
+
+.playlist h2 {
+    padding-left: 0;
+}
+
+.playlist-child h3 {
+    width: 300px;
+    margin-left: 0;
+}
+
+.playlist-child h5 {
+    margin-left: 0;
+}
+
+th {
+    background: rgb(29, 29, 29);
+    color: coral;
+}
+
+th, td {
+    border: 1px solid rgb(29, 29, 29);
+    padding: 10px;
+}
+
+select {
+    color: coral;
+    font-size: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: rgb(29, 29, 29);
+}
+
+option {
+    color: coral;
+    font-size: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: rgb(29, 29, 29);
+}
+
+.edit-form {
+    margin-top: 7%;
+    margin-bottom: 7%;
+}
+
+.fa-ban {
+    color: red;
+    cursor: pointer;
+}
+
+.playlist {
+    min-height: 95vh;
+    margin-left: 80px;
+}
+
+.playlist-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;
+    margin-bottom: 30px;
+}
+
+.audio-playlist, .video-playlist {
+    margin-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.audio-playlist-title {
+    margin-top: 30px;
+}
