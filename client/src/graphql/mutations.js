@@ -1,5 +1,26 @@
 import { gql } from "@apollo/client";
 
+export const GET_AUDIO = gql`
+  mutation getAudio($id: String!) {
+    getAudio(id: $id) {
+      id
+      albom
+      song
+      singer
+      image
+      description
+      mp3
+      numberOfViews
+      likes
+      comments {
+        text
+        user
+        userId
+      }
+    }
+  }
+`;
+
 export const ADD_AUDIO = gql`
   mutation addAudio(
     $albom: String!
@@ -76,15 +97,32 @@ export const LIKE_AUDIO = gql`
       description
       mp3
       numberOfViews
-      likes {
-        id
-      }
+      likes
       comments {
         text
-        user {
-          id
-          name
-        }
+        user
+        userId
+      }
+    }
+  }
+`;
+
+export const UNLIKE_AUDIO = gql`
+  mutation unlikeAudio($id: String!, $userId: String!, $numberOfViews: Int!) {
+    unlikeAudio(id: $id, userId: $userId, numberOfViews: $numberOfViews) {
+      id
+      albom
+      song
+      singer
+      image
+      description
+      mp3
+      numberOfViews
+      likes
+      comments {
+        text
+        user
+        userId
       }
     }
   }

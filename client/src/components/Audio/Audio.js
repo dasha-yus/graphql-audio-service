@@ -1,53 +1,69 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import UserContext from "../../context/UserContext";
-import { LIKE_AUDIO, ADD_AUDIO_TO_PLAYLIST } from "../../graphql/mutations";
+import {
+  LIKE_AUDIO,
+  UNLIKE_AUDIO,
+  ADD_AUDIO_TO_PLAYLIST,
+  GET_AUDIO,
+} from "../../graphql/mutations";
 import SectionsUnderThePost from "../common/SectionsUnderThePost";
 import { GET_AUDIO_BY_ID_QUERY } from "../../graphql/queries";
 import { useQuery, useMutation } from "@apollo/client";
+import { useStateWithCallbackLazy } from "use-state-with-callback";
 
 const Audio = () => {
   const { id } = useParams();
-  const [post, setPost] = useState();
+  const [post, setPost] = useStateWithCallbackLazy();
   const { userData } = useContext(UserContext);
 
   const { loading, error, data } = useQuery(GET_AUDIO_BY_ID_QUERY, {
     variables: { id },
   });
 
+  const [getAudio] = useMutation(GET_AUDIO);
   const [like] = useMutation(LIKE_AUDIO);
+  const [unlike] = useMutation(UNLIKE_AUDIO);
   const [addAudioToPlaylist] = useMutation(ADD_AUDIO_TO_PLAYLIST);
+
+  // useEffect(() => {
+  //   getAudio({ variables: { id: id } })
+  //     .then((res) => setPost(res.data.getAudio))
+  //     .catch((err) => console.log(`${err.response.status} error occurred`));
+  // }, [id]);
 
   useEffect(() => {
     if (data) {
-      setPost(data.audio);
+      setPost(data.audio, (audio) => console.log(audio.numberOfViews));
     }
   }, [data]);
 
   const likeAudio = (id, numberOfViews) => {
-    // like({
-    //   variables: {
-    //     id: id,
-    //     userId: userData.user.id,
-    //     numberOfViews: Number(numberOfViews),
-    //   },
-    //   refetchQueries: [{ query: GET_AUDIO_BY_ID_QUERY, variables: { id } }],
-    // });
-    // putItems(`audio/${id}/like`, {
-    //   userId: userData.user.id,
-    //   numberOfViews: numberOfViews,
-    // })
-    //   .then((res) => setPost(res.data))
-    //   .catch((err) => alert(`${err.response.status} error occurred`));
+    try {
+      like({
+        variables: {
+          id: id,
+          userId: userData.user.id,
+          numberOfViews: Number(numberOfViews),
+        },
+      });
+    } catch (err) {
+      alert(`${err.response.status} error occurred`);
+    }
   };
 
   const unlikeAudio = (id, numberOfViews) => {
-    // putItems(`audio/${id}/unlike`, {
-    //   userId: userData.user.id,
-    //   numberOfViews: numberOfViews,
-    // })
-    //   .then((res) => setPost(res.data))
-    //   .catch((err) => alert(`${err.response.status} error occurred`));
+    try {
+      unlike({
+        variables: {
+          id: id,
+          userId: userData.user.id,
+          numberOfViews: Number(numberOfViews),
+        },
+      });
+    } catch (err) {
+      alert(`${err.response.status} error occurred`);
+    }
   };
 
   const makeComment = (text, id, userId) => {
@@ -72,7 +88,7 @@ const Audio = () => {
           image: image,
         },
       });
-      alert("The audio was successfully added to playlist")
+      alert("The audio was successfully added to playlist");
     } catch (err) {
       alert(`${err.response.status} error occurred`);
     }

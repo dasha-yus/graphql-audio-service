@@ -1,6 +1,5 @@
 const graphql = require("graphql");
 
-const UserType = require("./user-type");
 const CommentType = require("./comment-type");
 
 const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList } =
@@ -17,7 +16,7 @@ const AudioType = new GraphQLObjectType({
     mp3: { type: GraphQLString },
     description: { type: GraphQLString },
     numberOfViews: { type: GraphQLInt },
-    likes: { type: GraphQLList(UserType) },
+    likes: { type: GraphQLList(GraphQLString) },
     comments: { type: GraphQLList(CommentType) },
   }),
 });

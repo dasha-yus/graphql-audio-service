@@ -26,15 +26,11 @@ export const GET_AUDIO_BY_ID_QUERY = gql`
       description
       mp3
       numberOfViews
-      likes {
-        id
-      }
+      likes
       comments {
         text
-        user {
-          id
-          name
-        }
+        user
+        userId
       }
     }
   }

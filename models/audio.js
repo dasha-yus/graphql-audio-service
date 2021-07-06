@@ -33,8 +33,7 @@ var audioSchema = new mongoose.Schema({
   },
   likes: [
     {
-      type: ObjectId,
-      ref: "User",
+      type: String,
     },
   ],
   comments: [

@@ -16,6 +16,20 @@ const {
 const Mutation = new GraphQLObjectType({
   name: "Mutation",
   fields: {
+    getAudio: {
+      type: AudioType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parent, args) {
+        return Audio.findByIdAndUpdate(
+          args.id,
+          { $inc: { numberOfViews: 1 } },
+          { new: true }
+        );
+      },
+    },
+
     addAudio: {
       type: AudioType,
       args: {
@@ -141,6 +155,31 @@ const Mutation = new GraphQLObjectType({
                 song: args.song,
                 singer: args.singer,
                 image: args.image,
+              },
+            },
+          },
+          { new: true }
+        );
+      },
+    },
+
+    addComment: {
+      type: AudioType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+        text: { type: new GraphQLNonNull(GraphQLString) },
+        user: { type: new GraphQLNonNull(GraphQLString) },
+        userId: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve(parent, args) {
+        return Audio.findByIdAndUpdate(
+          args.id,
+          {
+            $push: {
+              comments: {
+                text: args.text,
+                user: args.user,
+                userId: args.userId,
               },
             },
           },

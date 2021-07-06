@@ -17,7 +17,7 @@ const RootQuery = new GraphQLObjectType({
       type: AudioType,
       args: { id: { type: GraphQLString } },
       resolve(parent, args) {
-        return Audio.findById(args.id);
+        return Audio.findByIdAndUpdate(args.id);
       },
     },
     audios: {
