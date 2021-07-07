@@ -162,3 +162,29 @@ export const ADD_AUDIO_TO_PLAYLIST = gql`
     }
   }
 `;
+
+export const ADD_COMMENT = gql`
+  mutation addComment(
+    $id: String!
+    $text: String!
+    $user: String!
+    $userId: String!
+  ) {
+    addComment(id: $id, text: $text, user: $user, userId: $userId) {
+      id
+      albom
+      song
+      singer
+      image
+      description
+      mp3
+      numberOfViews
+      likes
+      comments {
+        text
+        user
+        userId
+      }
+    }
+  }
+`;

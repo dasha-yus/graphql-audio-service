@@ -16,19 +16,19 @@ const {
 const Mutation = new GraphQLObjectType({
   name: "Mutation",
   fields: {
-    getAudio: {
-      type: AudioType,
-      args: {
-        id: { type: new GraphQLNonNull(GraphQLString) },
-      },
-      resolve(parent, args) {
-        return Audio.findByIdAndUpdate(
-          args.id,
-          { $inc: { numberOfViews: 1 } },
-          { new: true }
-        );
-      },
-    },
+    // getAudio: {
+    //   type: AudioType,
+    //   args: {
+    //     id: { type: new GraphQLNonNull(GraphQLString) },
+    //   },
+    //   resolve(parent, args) {
+    //     return Audio.findByIdAndUpdate(
+    //       args.id,
+    //       { $inc: { numberOfViews: 1 } },
+    //       { new: true }
+    //     );
+    //   },
+    // },
 
     addAudio: {
       type: AudioType,
