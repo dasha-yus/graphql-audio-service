@@ -1,6 +1,5 @@
-Web application "Audio / Video Service" for storing and listening / viewing audio / video recordings
+Video / Audio Service application where the audio part is written in GraphQL 
 
 How to start the application?
-1. add all the data from the audio-video-service-client-... repository to the client folder;
-2. Make -npm install in the root and /client folders;
-3. Execute -npm run dev in the root folder.
+1. Make -npm install in the root and /client folders;
+2. Execute -npm run dev in the root folder.
