@@ -1,43 +1,32 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import UserContext from "../../context/UserContext";
 import {
   LIKE_AUDIO,
   UNLIKE_AUDIO,
   ADD_AUDIO_TO_PLAYLIST,
+  GET_AUDIO
 } from "../../graphql/mutations";
 import SectionsUnderThePost from "../common/SectionsUnderThePost";
-import { GET_AUDIO_BY_ID_QUERY } from "../../graphql/queries";
-import { useQuery, useMutation } from "@apollo/client";
-import { useStateWithCallbackLazy } from "use-state-with-callback";
+import { useMutation } from "@apollo/client";
 import { ADD_COMMENT } from "./../../graphql/mutations";
 
 const Audio = () => {
   const { id } = useParams();
-  const [post, setPost] = useStateWithCallbackLazy();
+  const [post, setPost] = useState();
   const { userData } = useContext(UserContext);
 
-  const { loading, error, data } = useQuery(GET_AUDIO_BY_ID_QUERY, {
-    variables: { id },
-  });
-
-  // const [getAudio] = useMutation(GET_AUDIO);
+  const [getAudio] = useMutation(GET_AUDIO);
   const [like] = useMutation(LIKE_AUDIO);
   const [unlike] = useMutation(UNLIKE_AUDIO);
   const [addComment] = useMutation(ADD_COMMENT);
   const [addAudioToPlaylist] = useMutation(ADD_AUDIO_TO_PLAYLIST);
 
-  // useEffect(() => {
-  //   getAudio({ variables: { id: id } })
-  //     .then((res) => setPost(res.data.getAudio))
-  //     .catch((err) => console.log(`${err.response.status} error occurred`));
-  // }, [id]);
-
   useEffect(() => {
-    if (data) {
-      setPost(data.audio, (audio) => console.log(audio.numberOfViews));
-    }
-  }, [data]);
+    getAudio({ variables: { id: id } })
+      .then((res) => setPost(res.data.getAudio))
+      .catch((err) => console.log(`${err.response.status} error occurred`));
+  }, [id]);
 
   const likeAudio = (id, numberOfViews) => {
     try {
@@ -47,7 +36,7 @@ const Audio = () => {
           userId: userData.user.id,
           numberOfViews: Number(numberOfViews),
         },
-      });
+      }).then((res) => setPost(res.data.likeAudio));
     } catch (err) {
       alert(`${err.response.status} error occurred`);
     }
@@ -61,7 +50,7 @@ const Audio = () => {
           userId: userData.user.id,
           numberOfViews: Number(numberOfViews),
         },
-      });
+      }).then((res) => setPost(res.data.unlikeAudio));
     } catch (err) {
       alert(`${err.response.status} error occurred`);
     }
@@ -76,7 +65,7 @@ const Audio = () => {
           user: userData.user.name,
           userId: userId,
         },
-      });
+      }).then(res => setPost(res.data.addComment));
       document.getElementById("comment-form").reset();
     } catch (err) {
       alert(`${err.response.status} error occurred`);
@@ -99,9 +88,6 @@ const Audio = () => {
       alert(`${err.response.status} error occurred`);
     }
   };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{console.log(error)} Error :(</p>;
 
   return (
     <div className="single-post">
