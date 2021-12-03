@@ -1,0 +1,49 @@
+version: '3.7'
+
+services:
+    server:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      image: audio-video-service-node
+      ports:
+        - "5000:5000"
+      links:
+        - mongo
+      depends_on:
+        - mongo
+      environment:
+        WAIT_HOSTS: mongodb:27017
+      networks:
+        - node-webapp-network
+    mongo:
+      image: mongo:4.4.6
+      container_name: myapp-mongodb
+      volumes:
+        - ./mongo-volume:/data/db
+      environment:
+        - MONGO_INITDB_ROOT_USERNAME=dasha
+        - MONGO_INITDB_ROOT_PASSWORD=Qwerty1234567890
+        - MONGO_INITDB_DATABASE=audio-video-service
+      ports:
+        - "27017:27017"
+    client:
+      build:
+        context: ./client
+        dockerfile: Dockerfile
+      image: audio-video-service-ui
+      container_name: myapp-react-client
+      command: npm start
+      volumes:
+        - ./client/:/usr/app
+        - /usr/app/node_modules
+      depends_on:
+        - server
+      ports:
+        - "3000:3000"
+      networks:
+        - node-webapp-network
+
+networks:
+  node-webapp-network:
+    driver: bridge

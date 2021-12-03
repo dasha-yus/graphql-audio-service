@@ -1,5 +1,5 @@
 {
     "port": 5000,
-    "mongoUri": "mongodb://localhost/audio-video-service",
+    "mongoUri": "mongodb+srv://dasha:Qwerty1234567890@cluster0.tdyhl.azure.mongodb.net/audio-video-service?retryWrites=true&w=majority",
     "JWT_SECRET": "qGhZtXEJa5f49jd6vBhNf6fC5gaQgUjvX9843LNyeqHYaGqhk5"
 }
